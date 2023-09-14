@@ -150,21 +150,6 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (hint_one_was_recieved == false) {
-        if (answer1 > 0) {
-            if (answer1 % 10 > 0) {
-                game.splash("the number is higher than", the_equasions_first_number + the_equasions_second_number - randint(3, 6))
-                game.splash("the number is less than", the_equasions_first_number + the_equasions_second_number + randint(3, 6))
-                hint_one_was_recieved = true
-            } else {
-                game.showLongText("You answered the question correctly you silly goose!", DialogLayout.Center)
-            }
-        } else {
-            game.showLongText("Stop asking for hints before you answer the question", DialogLayout.Center)
-        }
-    }
-})
 controller.down.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
     mySprite.setImage(img`
@@ -379,6 +364,21 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     200,
     true
     )
+})
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (hint_one_was_recieved == false) {
+        if (answer1 > 0) {
+            if (answer1 % 10 > 0) {
+                game.splash("the number is higher than", the_equasions_first_number + the_equasions_second_number - randint(3, 6))
+                game.splash("the number is less than", the_equasions_first_number + the_equasions_second_number + randint(3, 6))
+                hint_one_was_recieved = true
+            } else {
+                game.showLongText("You answered the question correctly you silly goose!", DialogLayout.Center)
+            }
+        } else {
+            game.showLongText("Stop asking for hints before you answer the question", DialogLayout.Center)
+        }
+    }
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)

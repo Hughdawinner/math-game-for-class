@@ -1,3 +1,6 @@
+namespace SpriteKind {
+    export const nothing = SpriteKind.create()
+}
 controller.down.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
     mySprite.setImage(img`
@@ -138,6 +141,66 @@ let answer9 = 0
 let answer10 = 0
 the_equasions_first_number = randint(3, 10)
 the_equasions_second_number = randint(3, 10)
+let Game_won = false
+let mySprite2 = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . 3 3 . . . . . . . 
+    . . . . . . 3 3 3 . . . . . . . 
+    . . . . . . 3 3 3 . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.nothing)
+tiles.placeOnRandomTile(mySprite2, assets.tile`myTile8`)
+animation.runImageAnimation(
+mySprite2,
+[img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . f f f f f . . . . . . 
+    . . . . f b b b b b f . . . . . 
+    . . . f b b f f f b b f . . . . 
+    . . . f b f . . . f b f . . . . 
+    . . . f b f . . . f b f . . . . 
+    . . f f f f f f f f f f f . . . 
+    . f c b b b b b b b b b c f . . 
+    . f b b b b b b b b b b c f . . 
+    . f b b b b f f f b b b c f . . 
+    . f b b b b f f f b b b c f . . 
+    . f b b b b b f b b b b c f . . 
+    . f b b b b b f b b b b c f . . 
+    . f b b b b b b b b b c c f . . 
+    . f c c c c c c c c c c c f . . 
+    . . f f f f f f f f f f f . . . 
+    `,img`
+    . . . . . f f f f f . . . . . . 
+    . . . . f b b b b b f . . . . . 
+    . . . f b b f f f b b f . . . . 
+    . . . f b f . . . f b f . . . . 
+    . . . f b f . . . f b f . . . . 
+    . . f f f f f f f f f f f . . . 
+    . f c b b b b b b b b b c f . . 
+    . f b b b b b b b b b b c f . . 
+    . f b b b b f f f b b b c f . . 
+    . f b b b b f f f b b b c f . . 
+    . f b b b b b f b b b b c f . . 
+    . f b b b b b f b b b b c f . . 
+    . f b b b b b b b b b c c f . . 
+    . f c c c c c c c c c c c f . . 
+    . . f f f f f f f f f f f . . . 
+    . . . . . . . . . . . . . . . . 
+    `],
+1000,
+true
+)
 /**
  * This Tilemap needs to be designed 
  * 
@@ -242,6 +305,14 @@ forever(function () {
                 pause(100)
             }
         }
+    }
+})
+forever(function () {
+    if (Game_won == true) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+        sprites.destroyAllSpritesOfKind(SpriteKind.nothing)
+        tiles.setCurrentTilemap(tilemap`level5`)
+        game.showLongText("Credits: Jacob: ideas, head designer, basic coding. Hugh: coding. Ken: art, ideas, animations", DialogLayout.Center)
     }
 })
 forever(function () {

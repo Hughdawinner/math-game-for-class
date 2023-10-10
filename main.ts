@@ -1,6 +1,3 @@
-namespace SpriteKind {
-    export const nothing = SpriteKind.create()
-}
 controller.down.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.All, mySprite)
     mySprite.setImage(img`
@@ -141,66 +138,13 @@ let answer9 = 0
 let answer10 = 0
 the_equasions_first_number = randint(3, 10)
 the_equasions_second_number = randint(3, 10)
-let mySprite2 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . 3 3 . . . . . . . 
-    . . . . . . 3 3 3 . . . . . . . 
-    . . . . . . 3 3 3 . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.nothing)
-tiles.placeOnRandomTile(mySprite2, assets.tile`myTile8`)
-animation.runImageAnimation(
-mySprite2,
-[img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . f f f f f . . . . . . 
-    . . . . f b b b b b f . . . . . 
-    . . . f b b f f f b b f . . . . 
-    . . . f b f . . . f b f . . . . 
-    . . . f b f . . . f b f . . . . 
-    . . f f f f f f f f f f f . . . 
-    . f c b b b b b b b b b c f . . 
-    . f b b b b b b b b b b c f . . 
-    . f b b b b f f f b b b c f . . 
-    . f b b b b f f f b b b c f . . 
-    . f b b b b b f b b b b c f . . 
-    . f b b b b b f b b b b c f . . 
-    . f b b b b b b b b b c c f . . 
-    . f c c c c c c c c c c c f . . 
-    . . f f f f f f f f f f f . . . 
-    `,img`
-    . . . . . f f f f f . . . . . . 
-    . . . . f b b b b b f . . . . . 
-    . . . f b b f f f b b f . . . . 
-    . . . f b f . . . f b f . . . . 
-    . . . f b f . . . f b f . . . . 
-    . . f f f f f f f f f f f . . . 
-    . f c b b b b b b b b b c f . . 
-    . f b b b b b b b b b b c f . . 
-    . f b b b b f f f b b b c f . . 
-    . f b b b b f f f b b b c f . . 
-    . f b b b b b f b b b b c f . . 
-    . f b b b b b f b b b b c f . . 
-    . f b b b b b b b b b c c f . . 
-    . f c c c c c c c c c c c f . . 
-    . . f f f f f f f f f f f . . . 
-    . . . . . . . . . . . . . . . . 
-    `],
-1000,
-true
-)
-let game_beat = false
+/**
+ * This Tilemap needs to be designed 
+ * 
+ * <--
+ * 
+ * (you can edit the way the blocks that make up the maze look if you want, they do look pretty bad)
+ */
 forever(function () {
     if (The_question_was_received == false) {
         if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile2`)) {
@@ -211,7 +155,7 @@ forever(function () {
                 tileUtil.replaceAllTiles(assets.tile`myTile2`, assets.tile`myTile9`)
             }
         }
-        if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`)) {
+        if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile13`)) {
             if (controller.A.isPressed()) {
                 game.showLongText("Go get the white piece of paper from the table", DialogLayout.Top)
                 pause(1000)
@@ -232,7 +176,7 @@ forever(function () {
         if (answer1 > 0 && answer1 % 10 == 0) {
         	
         } else {
-            if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`)) {
+            if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile13`)) {
                 if (controller.A.isPressed()) {
                     answer10 = answer9
                     answer9 = answer8
@@ -248,7 +192,7 @@ forever(function () {
                         answer1 = answer1 * 10
                         game.splash("Correct!")
                         game.splash("Now solve the maze!")
-                        tileUtil.replaceAllTiles(assets.tile`myTile8`, assets.tile`myTile`)
+                        tileUtil.replaceAllTiles(assets.tile`myTile13`, assets.tile`myTile`)
                         tiles.setWallAt(tiles.getTileLocation(7, 5), false)
                         the_equasions_first_number = randint(3, 10)
                         the_equasions_second_number = randint(3, 10)
@@ -265,7 +209,7 @@ forever(function () {
         }
     }
     if (the_second_question_was_recieved == true) {
-        if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile13`)) {
+        if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile8`)) {
             if (controller.A.isPressed()) {
                 answer10 = answer9
                 answer9 = answer8
@@ -292,17 +236,12 @@ forever(function () {
             }
         }
     } else {
-        if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile13`)) {
+        if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile8`)) {
             if (controller.A.isPressed()) {
                 game.showLongText("Go to the table to get the equasion", DialogLayout.Top)
                 pause(100)
             }
         }
-    }
-})
-forever(function () {
-    if (game_beat == true) {
-        game.showLongText("Credits: Jacob, lead designer, ideas. Hugh, coding. Ken, Art, ideas, animations", DialogLayout.Center)
     }
 })
 forever(function () {

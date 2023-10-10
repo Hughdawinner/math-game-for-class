@@ -162,7 +162,7 @@ let mySprite2 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.nothing)
-tiles.placeOnRandomTile(mySprite2, assets.tile`myTile8`)
+mySprite2.setPosition(120, 79)
 animation.runImageAnimation(
 mySprite2,
 [img`
@@ -213,7 +213,7 @@ forever(function () {
                 tileUtil.replaceAllTiles(assets.tile`myTile2`, assets.tile`myTile9`)
             }
         }
-        if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`)) {
+        if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`) || mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile30`)) {
             if (controller.A.isPressed()) {
                 game.showLongText("Go get the white piece of paper from the table", DialogLayout.Top)
                 pause(1000)
@@ -234,7 +234,7 @@ forever(function () {
         if (answer1 > 0 && answer1 % 10 == 0) {
         	
         } else {
-            if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`)) {
+            if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`) || mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile30`)) {
                 if (controller.A.isPressed()) {
                     answer10 = answer9
                     answer9 = answer8
@@ -251,7 +251,9 @@ forever(function () {
                         game.splash("Correct!")
                         game.splash("Now solve the maze!")
                         tileUtil.replaceAllTiles(assets.tile`myTile8`, assets.tile`myTile`)
+                        tileUtil.replaceAllTiles(assets.tile`myTile30`, assets.tile`myTile`)
                         tiles.setWallAt(tiles.getTileLocation(7, 5), false)
+                        tiles.setWallAt(tiles.getTileLocation(7, 4), false)
                         the_equasions_first_number = randint(3, 10)
                         the_equasions_second_number = randint(3, 10)
                         tileUtil.replaceAllTiles(assets.tile`myTile9`, assets.tile`myTile2`)

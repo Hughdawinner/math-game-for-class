@@ -66,17 +66,19 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
         `)
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (hint_one_was_recieved == false) {
-        if (answer1 > 0) {
-            if (answer1 % 10 > 0) {
-                game.splash("The number is higher than", the_equasions_first_number + the_equasions_second_number - randint(3, 6))
-                game.splash("The number is less than", the_equasions_first_number + the_equasions_second_number + randint(3, 6))
-                hint_one_was_recieved = true
+    if (level == 1) {
+        if (hint_one_was_recieved == false) {
+            if (answer1 > 0) {
+                if (answer1 % 10 > 0) {
+                    game.splash("The number is higher than", the_equasions_first_number + the_equasions_second_number - randint(3, 6))
+                    game.splash("The number is less than", the_equasions_first_number + the_equasions_second_number + randint(3, 6))
+                    hint_one_was_recieved = true
+                } else {
+                    game.showLongText("You answered the question correctly you silly goose!", DialogLayout.Top)
+                }
             } else {
-                game.showLongText("You answered the question correctly you silly goose!", DialogLayout.Top)
+                game.showLongText("Stop asking for hints before you answer the question", DialogLayout.Top)
             }
-        } else {
-            game.showLongText("Stop asking for hints before you answer the question", DialogLayout.Top)
         }
     }
 })
@@ -101,9 +103,11 @@ controller.left.onEvent(ControllerButtonEvent.Released, function () {
         . . . . . . f f f . . . . 
         `)
 })
+let the_equasions_third_number = 0
 let Jackolantern_1: Sprite = null
 let the_equasions_second_number = 0
 let the_equasions_first_number = 0
+let level = 0
 let answer1 = 0
 let hint_one_was_recieved = false
 let mySprite: Sprite = null
@@ -125,9 +129,10 @@ mySprite = sprites.create(img`
     . . . f f f f f f . . . . 
     . . . f f . . f f . . . . 
     `, SpriteKind.Player)
+mySprite.x += 16
 controller.moveSprite(mySprite)
 scene.cameraFollowSprite(mySprite)
-tiles.setCurrentTilemap(tilemap`level1`)
+tiles.setCurrentTilemap(tilemap`level6`)
 let The_question_was_received = false
 hint_one_was_recieved = false
 let the_second_question_was_recieved = false
@@ -141,6 +146,8 @@ let answer7 = 0
 let answer8 = 0
 let answer9 = 0
 let answer10 = 0
+level = 1
+let pumpkin_times_found = 0
 the_equasions_first_number = randint(3, 10)
 the_equasions_second_number = randint(3, 10)
 let Game_won = false
@@ -162,7 +169,7 @@ let mySprite2 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.nothing)
-mySprite2.setPosition(120, 79)
+mySprite2.setPosition(136, 79)
 animation.runImageAnimation(
 mySprite2,
 [img`
@@ -215,7 +222,7 @@ forever(function () {
         }
         if (mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile8`) || mySprite.tileKindAt(TileDirection.Right, assets.tile`myTile30`)) {
             if (controller.A.isPressed()) {
-                game.showLongText("Go get the white piece of paper from the table", DialogLayout.Top)
+                game.showLongText("It's locked. you gotta find out how to open it!", DialogLayout.Top)
                 pause(1000)
             }
         }
@@ -250,10 +257,11 @@ forever(function () {
                         answer1 = answer1 * 10
                         game.splash("Correct!")
                         game.splash("Now solve the maze!")
+                        tiles.setCurrentTilemap(tilemap`level1`)
                         tileUtil.replaceAllTiles(assets.tile`myTile8`, assets.tile`myTile`)
                         tileUtil.replaceAllTiles(assets.tile`myTile30`, assets.tile`myTile`)
-                        tiles.setWallAt(tiles.getTileLocation(7, 5), false)
-                        tiles.setWallAt(tiles.getTileLocation(7, 4), false)
+                        tiles.setWallAt(tiles.getTileLocation(8, 5), false)
+                        tiles.setWallAt(tiles.getTileLocation(8, 4), false)
                         the_equasions_first_number = randint(3, 10)
                         the_equasions_second_number = randint(3, 10)
                         tileUtil.replaceAllTiles(assets.tile`myTile9`, assets.tile`myTile2`)
@@ -305,7 +313,7 @@ forever(function () {
                         d d d d d d d d d d d d d d d d 
                         d d d d d d d d d d d d d d d d 
                         `, SpriteKind.eyebrows_raised)
-                    tiles.placeOnTile(Jackolantern_1, tiles.getTileLocation(1, 6))
+                    tiles.placeOnRandomTile(Jackolantern_1, assets.tile`tile34`)
                     tiles.placeOnRandomTile(mySprite, assets.tile`tile35`)
                     animation.runImageAnimation(
                     Jackolantern_1,
@@ -534,7 +542,9 @@ forever(function () {
                     100,
                     true
                     )
+                    level = 2
                     color.Darken.startScreenEffect(100)
+                    tiles.setWallAt(Jackolantern_1.tilemapLocation(), true)
                 } else {
                     answer1 = answer1 * 10
                     answer1 = answer1 + 1
@@ -545,10 +555,39 @@ forever(function () {
             }
         }
     } else {
-        if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile8`)) {
+        if (mySprite.tileKindAt(TileDirection.Top, assets.tile`myTile13`)) {
             if (controller.A.isPressed()) {
                 game.showLongText("Go to the table to get the equasion", DialogLayout.Top)
                 pause(100)
+            }
+        }
+    }
+    if (level == 2) {
+        if (mySprite.tilemapLocation() == Jackolantern_1.tilemapLocation()) {
+            controller.moveSprite(mySprite, 0, 0)
+            the_equasions_first_number = randint(3, 10)
+            the_equasions_second_number = randint(3, 10)
+            the_equasions_third_number = randint(3, 10)
+            game.showLongText("He he he! add together the numbers 3!", DialogLayout.Center)
+            game.splash(the_equasions_first_number, the_equasions_second_number)
+            game.splash(the_equasions_third_number)
+            answer10 = answer9
+            answer9 = answer8
+            answer8 = answer7
+            answer7 = answer6
+            answer6 = answer5
+            answer5 = answer4
+            answer4 = answer3
+            answer3 = answer2
+            answer2 = answer1
+            answer1 = game.askForNumber("What is the answer?", 2)
+            if (answer1 == the_equasions_first_number + (the_equasions_third_number + the_equasions_second_number)) {
+                game.showLongText("Catch me again... if you can!", DialogLayout.Center)
+                if (mySprite.tilemapLocation() == Jackolantern_1.tilemapLocation()) {
+                    tiles.placeOnRandomTile(Jackolantern_1, assets.tile`tile34`)
+                } else {
+                	
+                }
             }
         }
     }
@@ -557,6 +596,7 @@ forever(function () {
     if (Game_won == true) {
         sprites.destroyAllSpritesOfKind(SpriteKind.Player)
         sprites.destroyAllSpritesOfKind(SpriteKind.nothing)
+        sprites.destroyAllSpritesOfKind(SpriteKind.eyebrows_raised)
         tiles.setCurrentTilemap(tilemap`level5`)
         game.showLongText("Credits: Jacob: ideas, head designer, basic coding. Hugh: coding. Ken: art, ideas, animations", DialogLayout.Center)
     }
